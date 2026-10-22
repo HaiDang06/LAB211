@@ -11,6 +11,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
+ * Lớp tiện ích (Utility Class) cung cấp các phương thức xác thực và chuẩn hóa
+ * dữ liệu đầu vào.
+ * Bao gồm kiểm tra số nguyên trong khoảng, kiểm tra số thực (bước nhảy 0.5),
+ * kiểm tra định dạng ngày tháng và kiểm tra chuỗi ký tự theo Regular
+ * Expression.
  *
  * @author Tuan Tran
  */
@@ -48,7 +53,8 @@ public class Validation {
         }
     }
 
-    // Kiem tra va phan tich gia tri so thuc nhap vao nam trong khoang va buoc nhay hop le
+    // Kiem tra va phan tich gia tri so thuc nhap vao nam trong khoang va buoc nhay
+    // hop le
     public static double getDouble(String input, double min, double max) throws Exception {
         try {
             double check = Double.parseDouble(input);
