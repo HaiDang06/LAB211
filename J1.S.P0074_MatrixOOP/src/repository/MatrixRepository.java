@@ -1,19 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package repository;
 
-import model.Matrix;
-
-/**
- *
- * @author Tuan Tran
- */
+import dto.MatrixDTO;
+import dto.ResponseDTO;
 import java.util.ArrayList;
 import java.util.List;
-import utils.Validation;
+import model.Matrix;
 
 public class MatrixRepository {
 
@@ -23,12 +14,26 @@ public class MatrixRepository {
         this.storage = new ArrayList<>();
     }
 
-    public void createNewMatrix(Matrix matrix) {
-        if (matrix != null) {
-            storage.add(matrix);
+    // CREATE: Nhận MatrixDTO để tạo và lưu 2 ma trận đầu vào
+    public void createMatrices(MatrixDTO dto) {
+        if (dto != null) {
+            if (dto.getMatrix1() != null) {
+                storage.add(new Matrix(dto.getMatrix1()));
+            }
+            if (dto.getMatrix2() != null) {
+                storage.add(new Matrix(dto.getMatrix2()));
+            }
         }
     }
 
+    // CREATE: Nhận ResponseDTO để tạo và lưu ma trận kết quả
+    public void createResultMatrix(ResponseDTO responseDto) {
+        if (responseDto != null && responseDto.getData() != null) {
+            storage.add(new Matrix(responseDto.getData()));
+        }
+    }
+
+    // READ: Lấy 1 ma trận theo vị trí
     public Matrix getMatrix(int index) {
         if (index >= 0 && index < storage.size()) {
             return storage.get(index);
@@ -36,61 +41,13 @@ public class MatrixRepository {
         return null;
     }
 
-    public void add() throws Exception {
-        Matrix m1 = storage.get(0);
-        Matrix m2 = storage.get(1);
-        if (Validation.isValidAdd(m1, m2)) {
-            throw new Exception("Size must be the same for addition.");
-        }
-        int[][] res = new int[m1.getRows()][m1.getCols()];
-        for (int i = 0; i < m1.getRows(); i++) {
-            for (int j = 0; j < m1.getCols(); j++) {
-                res[i][j] = m1.getData()[i][j] + m2.getData()[i][j];
-            }
-        }
-        Matrix m3 = new Matrix(res);
-        createNewMatrix(m3);
-    }
-
-    public void subtract() throws Exception {
-        Matrix m1 = storage.get(0);
-        Matrix m2 = storage.get(1);
-        if (Validation.isValidAdd(m1, m2)) {
-            throw new Exception("Size must be the same for subtraction.");
-        }
-        int[][] res = new int[m1.getRows()][m1.getCols()];
-        for (int i = 0; i < m1.getRows(); i++) {
-            for (int j = 0; j < m1.getCols(); j++) {
-                res[i][j] = m1.getData()[i][j] - m2.getData()[i][j];
-            }
-        }
-        Matrix m3 = new Matrix(res);
-        createNewMatrix(m3);
-    }
-
-    public void multiply() throws Exception {
-        Matrix m1 = storage.get(0);
-        Matrix m2 = storage.get(1);
-        if (Validation.isValidMul(m1, m2)) {
-            throw new Exception("Matrix 1 columns must equal Matrix 2 rows.");
-        }
-        int[][] res = new int[m1.getRows()][m2.getCols()];
-        for (int i = 0; i < m1.getRows(); i++) {
-            for (int j = 0; j < m2.getCols(); j++) {
-                for (int k = 0; k < m1.getCols(); k++) {
-                    res[i][j] += m1.getData()[i][k] * m2.getData()[k][j];
-                }
-            }
-        }
-        Matrix m3 = new Matrix(res);
-        createNewMatrix(m3);
-    }
-
+    // READ: Lấy toàn bộ danh sách ma trận
     public List<Matrix> getAll() {
         return storage;
     }
-    
-    public void clear(){
+
+    // DELETE: Xóa toàn bộ dữ liệu cũ
+    public void clear() {
         storage.clear();
     }
 }
